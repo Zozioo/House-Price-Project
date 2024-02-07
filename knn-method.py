@@ -1,26 +1,59 @@
-import panda as pd
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor
+import matplotlib.pyplot as plt
 
 
 
-myFile= '/home/40008593/Documents/M1/S2/Projet-HP/CleanTrain.csv'
-donnees = pd.read_csv(myFile, encoding='utf-8')
 
-y = donnees.SalePrice
+Dtrain = pd.read_csv('/Users/madina/Desktop/Projet py/CleanTrain.csv', sep =';')
+Dtest = pd.read_csv('/Users/madina/Desktop/Projet py/CleanTest.csv', sep = ';')
 
-# Step 3: Split your data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Step 4: Instantiate the KNN Classifier
-k = 3
-knn_classifier = KNeighborsClassifier(n_neighbors=k)
+np.random.seed(300)
 
-# Step 5: Train the model
-knn_classifier.fit(X_train, y_train)
 
-# Step 6: Make predictions
-y_pred = knn_classifier.predict(X_test)
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),  
+    ('knn', KNeighborsRegressor())  
+])
 
-# Step 7: Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
 
+param_grid = {
+    'knn__n_neighbors': range(1, 201) 
+}
+
+
+cv = 10  
+grid_search = GridSearchCV(pipeline, param_grid, cv=cv)
+grid_search.fit(Dtrain.drop(columns=['SalePrice']), Dtrain['SalePrice'])
+
+np.random.seed(300)
+
+
+results = grid_search.cv_results_
+
+
+param_values = [params['knn__n_neighbors'] for params in results['params']]
+
+
+mean_scores = results['mean_test_score']
+
+
+plt.plot(param_values, mean_scores, marker='o')
+plt.xlabel('Nombre de voisins (k)')
+plt.ylabel('Score moyen de validation croisée')
+plt.title('Validation croisée pour k-NN')
+plt.grid(True)
+plt.show()
+
+
+print("Résultats de la validation croisée :")
+print(grid_search.cv_results_)
+
+
+print("\nMeilleurs paramètres :")
+print(grid_search.best_params_)
