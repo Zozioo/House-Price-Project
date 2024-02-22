@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import math
+
 import csv
 import re 
 
@@ -8,10 +8,14 @@ class Nettoyage:
     
     def __init__(self):
 
-        self.train = '/home/40008593/Documents/M1/S2/Projet-HP/train.csv'
-        self.new_train = '/home/40008593/Documents/M1/S2/Projet-HP/CleanTrain.csv'
-        self.test = '/home/40008593/Documents/M1/S2/Projet-HP/test.csv'
-        self.new_test= '/home/40008593/Documents/M1/S2/Projet-HP/CleanTest.csv'
+        #self.train = '/home/40008593/Documents/M1/S2/Projet-HP/train.csv'
+        self.train = "C:/Users/zoero/OneDrive/Documents/perso/Python/données/train.csv"
+        #self.new_train = '/home/40008593/Documents/M1/S2/Projet-HP/CleanTrain.csv'
+        self.new_train ="C:/Users/zoero/OneDrive/Documents/perso/Python/données/CleanTrain.csv"
+        #self.test = '/home/40008593/Documents/M1/S2/Projet-HP/test.csv'
+        self.test ="C:/Users/zoero/OneDrive/Documents/perso/Python/données/test.csv"
+        #self.new_test= '/home/40008593/Documents/M1/S2/Projet-HP/CleanTest.csv'
+        self.new_test ="C:/Users/zoero/OneDrive/Documents/perso/Python/données/CleanTest.csv"
 
         self.variables_a_supprimer = ['Id','MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 'LotConfig', 'LandSlope',
                             'Neighborhood', 'Condition1', 'Condition2', 'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Exterior1st',
@@ -52,3 +56,4 @@ def executer():
     n.RemoveColumns(n.RemoveNA(n.train),n.variables_a_supprimer, n.new_train)
     n.RemoveColumns(n.RemoveNA(n.test),n.variables_a_supprimer,n.new_test)
 
+executer()
