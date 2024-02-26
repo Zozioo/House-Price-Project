@@ -8,12 +8,13 @@ class Nettoyage:
     
     def __init__(self):
 
-        self.train = "Hotel-Price-Project/data/train.csv"
-        self.new_train ="Hotel-Price-Project/data/CleanTrain.csv"
-        self.test ="Hotel-Price-Project/data/test.csv"
-        self.new_test ="Hotel-Price-Project/data/CleanTest.csv"
+        self.train = "data/train.csv"
+        self.new_train ="data/CleanTrain.csv"
+        self.test ="data/test.csv"
+        self.new_test ="data/CleanTest.csv"
 
-        self.variables_a_supprimer = ['Id','MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 'LotConfig', 'LandSlope',
+        self.variables_a_supprimer = ['Id','MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 
+                                      'LotConfig', 'LandSlope',
                             'Neighborhood', 'Condition1', 'Condition2', 'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Exterior1st',
                             'Exterior2nd', 'MasVnrType', 'ExterQual', 'ExterCond', 'Foundation', 'BsmtQual', 'BsmtCond', 'BsmtExposure',
                             'BsmtFinType1', 'BsmtFinType2', 'Heating', 'HeatingQC', 'CentralAir', 'Electrical', 'KitchenQual', 'Functional',
@@ -21,7 +22,7 @@ class Nettoyage:
                             'MiscFeature', 'SaleType', 'SaleCondition']
 
 
-    def RemoveNA(self, initialPath): #pour les string uniquement
+    def RemoveNA(self, initialPath): #pour les non strings uniquement
         string_columns=[] 
         donnees = pd.read_csv(initialPath, encoding='utf-8')
         for d in donnees:
@@ -36,7 +37,7 @@ class Nettoyage:
 
     
 
-    def RemoveColumns(seld,data,columnsToRemove, finalPath):
+    def RemoveColumns(self,data,columnsToRemove, finalPath):
         exactColumns = [col for col in data.columns if col in columnsToRemove]
         data.drop(columns=exactColumns, inplace=True) 
         # Maintenant, utiliser une expression régulière pour supprimer les colonnes commençant par l'un des fragments
