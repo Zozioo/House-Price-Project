@@ -40,7 +40,7 @@ class Nettoyage:
     def RemoveColumns(self,data,columnsToRemove, finalPath):
         exactColumns = [col for col in data.columns if col in columnsToRemove]
         data.drop(columns=exactColumns, inplace=True) 
-        # Maintenant, utiliser une expression régulière pour supprimer les colonnes commençant par l'un des fragments
+
         pattern = re.compile(r'\b(?:' + '|'.join(columnsToRemove) + r')_\w+\b')
         #Cela signifie que le motif doit commencer par l'un des mots spécifiés dans variables_a_supprimer, 
         #suivis d'un tiret bas, puis suivi par un ou plusieurs caractères alphanumériques.
