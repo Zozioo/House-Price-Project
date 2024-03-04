@@ -26,7 +26,7 @@ class Nettoyage:
                 donnees[d].replace(np.nan, "NA", inplace=True)
                 string_columns.append(d)
 
-        donnees = pd.get_dummies(donnees,columns=string_columns)
+        donnees = pd.get_dummies(donnees,columns=string_columns,dtype=int)
         return donnees
 
     
@@ -53,7 +53,10 @@ variables_a_supprimer=['Id','MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotSha
         
 def executer():
     n = Nettoyage("data/train.csv","data/test.csv",variables_a_supprimer)
-    n.RemoveColumns(n.RemoveNA(n.train),n.variables_a_supprimer, n.new_train)
-    n.RemoveColumns(n.RemoveNA(n.test),n.variables_a_supprimer,n.new_test)
+    n.RemoveColumns(n.RemoveNA(n.train), n.new_train)
+    n.RemoveColumns(n.RemoveNA(n.test),n.new_test)
+
+   
+
 
 executer()
