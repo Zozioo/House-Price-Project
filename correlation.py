@@ -9,7 +9,7 @@ from NettoyageDonnees import Nettoyage
 
 import seaborn as sns
 
-n = Nettoyage()
+n = Nettoyage("data/train.csv","data/test.csv",0)
 
 data=n.RemoveNA(n.train)
 data.drop('Id', axis=1, inplace=True)

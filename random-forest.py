@@ -3,13 +3,11 @@ import numpy as np
 
 # Modelling
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import  mean_squared_error, precision_score, recall_score, ConfusionMatrixDisplay
-from sklearn.model_selection import RandomizedSearchCV, train_test_split, cross_val_score, GridSearchCV
+from sklearn.metrics import  mean_squared_error, mean_absolute_error
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
 
-from scipy.stats import randint
 
 from sklearn.tree import export_graphviz
-from IPython.display import Image
 import graphviz
 
 
@@ -27,8 +25,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 
 # Validation croisée:
-param_dist = {"max_depth":[None,15,20,25,30,35], "n_estimators":[27,30,33]}
+param_dist = {"max_depth":[None,range(15,30)], "n_estimators":[27,30,33,40,50,60,70,80,90,100,110,120,130]}
 
+np.random.seed(1118)
 rf = RandomForestRegressor()
 grid_search = RandomizedSearchCV(rf, param_dist, cv=10, n_jobs=-1)
 grid_search.fit(X_train, y_train)
@@ -38,18 +37,19 @@ print('Best hyperparameters:',  grid_search.best_params_)
 y_pred = best_rf.predict(X_test)
 
 mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+mea = mean_absolute_error(y_test,y_pred)
+y_bar = np.mean(y_test)
+
 print("Mean Squared Error:", mse)
-
-
-
-# Create a series containing feature importances from the model and feature names from the training data
+print("Root Mean Squared Error", rmse, "Mean SalePrice", y_bar)
+print("Mean Average Error", mea)
+print("Mediane SalesPrice", np.median(y_test))
 feature_importances = pd.Series(best_rf.feature_importances_, index=X_train.columns).sort_values(ascending=False)
 
-# Plot a simple bar chart
 feature_importances.plot.bar()
 
-# Export the first three decision trees from the forest
-'''
+
 for i in range(3):
     tree = best_rf.estimators_[i]
     dot_data = export_graphviz(tree,
@@ -59,4 +59,4 @@ for i in range(3):
                                impurity=False, 
                                proportion=True)
     graph = graphviz.Source(dot_data)
-    graph.render(f"tree_{i}", format="png", cleanup=True)'''
+    graph.render(f"tree_{i}", format="png", cleanup=True)
