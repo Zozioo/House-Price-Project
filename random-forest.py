@@ -45,18 +45,3 @@ print("Mean Squared Error:", mse)
 print("Root Mean Squared Error", rmse, "Mean SalePrice", y_bar)
 print("Mean Average Error", mea)
 print("Mediane SalesPrice", np.median(y_test))
-feature_importances = pd.Series(best_rf.feature_importances_, index=X_train.columns).sort_values(ascending=False)
-
-feature_importances.plot.bar()
-
-
-for i in range(3):
-    tree = best_rf.estimators_[i]
-    dot_data = export_graphviz(tree,
-                               feature_names=X_train.columns,  
-                               filled=True,  
-                               max_depth=2, 
-                               impurity=False, 
-                               proportion=True)
-    graph = graphviz.Source(dot_data)
-    graph.render(f"tree_{i}", format="png", cleanup=True)
