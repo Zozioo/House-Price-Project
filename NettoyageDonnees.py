@@ -28,7 +28,11 @@ class Nettoyage:
                 string_columns.append(d)
 
         donnees = pd.get_dummies(donnees,columns=string_columns,dtype=int)
-        donnees = np.log10(donnees)
+        
+        #conversion logarithme
+        if 'SalePrice' in donnees.columns:
+            donnees['SalePrice'] = np.log10(donnees['SalePrice'])
+            
         return donnees
 
     
@@ -45,7 +49,7 @@ class Nettoyage:
         data.to_csv(finalPath, index=False, encoding='utf-8')
 
 
-variables_a_supprimer=['Id','MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 
+variables_a_supprimer=['MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 
                                       'LotConfig', 'LandSlope',
                             'Neighborhood', 'Condition1', 'Condition2', 'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Exterior1st',
                             'Exterior2nd', 'MasVnrType', 'ExterQual', 'ExterCond', 'Foundation', 'BsmtQual', 'BsmtCond', 'BsmtExposure',

@@ -3,17 +3,15 @@ import numpy as np
 
 # Modelling
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import  mean_squared_error, mean_absolute_error
+from sklearn.metrics import  mean_squared_error, mean_absolute_error,accuracy_score
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 
-
-from sklearn.tree import export_graphviz
-import graphviz
 
 
 
 myPath = "data/CleanTrain.csv"
 house = pd.read_csv(myPath, encoding='utf-8')
+house = house.drop('Id', axis=1)
 
 #découpage des données
 y = house['SalePrice']
@@ -25,7 +23,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 
 # Validation croisée:
-param_dist = {"max_depth":[None,range(15,30)], "n_estimators":[27,30,33,40,50,60,70,80,90,100,110,120,130]}
+param_dist = {"max_depth":range(15,30), "n_estimators":[27,30,33,40,50,60,70,80,90,100,110,120,130]}
 
 np.random.seed(1118)
 rf = RandomForestRegressor()
@@ -39,16 +37,19 @@ y_pred = best_rf.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
 mea = mean_absolute_error(y_test,y_pred)
-y_bar = np.mean(y_test)
+
 
 print("Mean Squared Error:", mse)
-print("Root Mean Squared Error", rmse, "Mean SalePrice", y_bar)
+print("Root Mean Squared Error", rmse,)
 print("Mean Average Error", mea)
-print("Mediane SalesPrice", np.median(y_test))
 
 
+#Prédiction des données Test avec la méthode des randoms forest:
 
-#Prédiction des données Test avec la méthode des rabdoms forest:
+Xtest = pd.read_csv("data/CleanTest.csv")
+XtestBis = Xtest.drop('Id', axis=1)
+yTest_pred = best_rf.predict(XtestBis)
+yTest_pred = np.power(10,yTest_pred)
 
-Xtest = pd.read_csv("data/CleanTest")
-yTest_pred = best_rf.predict(Xtest)
+result =pd.concat([Xtest['Id'], pd.Series(yTest_pred, name='SalePrice')], axis=1)
+result.to_csv("data/prediction.csv", index=False, encoding='utf-8')

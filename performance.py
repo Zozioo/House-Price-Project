@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+##régression linéaire multiple
 modeles = ['Régression linéaire multiple', 'KNN', 'Random Forest']
 RMSE = [39724, 49767, 24877]
 
@@ -17,7 +18,7 @@ plt.show()
 
 #MEA
 modeles = ['Régression linéaire multiple', 'KNN', 'Random Forest']
-MEA = [26667.79, 30819.37, 17081]
+MEA = [0.06,0.07, 0.043]
 
 plt.figure(figsize=(10, 6))
 plt.bar(modeles, MEA, color='lightgreen')
