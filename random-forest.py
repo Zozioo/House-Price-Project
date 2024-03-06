@@ -3,9 +3,11 @@ import numpy as np
 
 # Modelling
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import  mean_squared_error, mean_absolute_error,accuracy_score
+from sklearn.metrics import  mean_squared_error, mean_absolute_error
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
-
+from sklearn.tree import export_graphviz
+from IPython.display import display
+import graphviz
 
 
 
@@ -29,8 +31,12 @@ np.random.seed(1118)
 rf = RandomForestRegressor()
 grid_search = RandomizedSearchCV(rf, param_dist, cv=10, n_jobs=-1)
 grid_search.fit(X_train, y_train)
+
+
 best_rf = grid_search.best_estimator_
 print('Best hyperparameters:',  grid_search.best_params_)
+
+
 
 y_pred = best_rf.predict(X_test)
 
@@ -43,6 +49,18 @@ print("Mean Squared Error:", mse)
 print("Root Mean Squared Error", rmse,)
 print("Mean Average Error", mea)
 
+
+#Visualisation de l'arbre
+for i in range(3):
+    tree = best_rf.estimators_[i]
+    dot_data = export_graphviz(tree,
+                               feature_names=X_train.columns,  
+                               filled=True,  
+                               max_depth=2, 
+                               impurity=False, 
+                               proportion=True)
+    graph = graphviz.Source(dot_data)
+    graph.render(f"tree_{i}", format="png", cleanup=True)
 
 #Prédiction des données Test avec la méthode des randoms forest:
 

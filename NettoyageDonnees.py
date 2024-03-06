@@ -66,6 +66,3 @@ def executer():
 
 
 executer()
-
-
-#transformation logarithme de Sales Price
