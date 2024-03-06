@@ -45,3 +45,10 @@ print("Mean Squared Error:", mse)
 print("Root Mean Squared Error", rmse, "Mean SalePrice", y_bar)
 print("Mean Average Error", mea)
 print("Mediane SalesPrice", np.median(y_test))
+
+
+
+#Prédiction des données Test avec la méthode des rabdoms forest:
+
+Xtest = pd.read_csv("data/CleanTest")
+yTest_pred = best_rf.predict(Xtest)
