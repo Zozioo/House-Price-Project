@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 
 
 df = pd.read_csv('data/CleanTrain.csv')
+df = df.drop('Id', axis=1)
 variables = df[['GrLivArea', 'OverallQual', 'GarageCars']]
 
 
@@ -30,7 +31,6 @@ print(coefficients_arrondis)
 y_pred= reg_model.predict(X_test)  
 x_pred= reg_model.predict(X_train) 
 
-print(" prediction pour l'ensemble de test: {}".format(y_pred))
 
 #Valeur actuelle and la valeur prédite
 reg_model_diff = pd.DataFrame({'Valuer actuelle': Y_test, 'Valeur predite': y_pred})

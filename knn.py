@@ -17,6 +17,7 @@ pipeline = Pipeline([
 ])
 
 df = pd.read_csv('data/CleanTrain.csv')
+df = df.drop('Id', axis=1)
 #recherche de k optimal
 param_grid = {
     'knn__n_neighbors': range(1, 201)  
