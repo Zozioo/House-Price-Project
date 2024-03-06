@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-
+import matplotlib as math
+import statistics as stat
 import csv
 import re 
 
@@ -27,6 +28,7 @@ class Nettoyage:
                 string_columns.append(d)
 
         donnees = pd.get_dummies(donnees,columns=string_columns,dtype=int)
+        donnees = np.log10(donnees)
         return donnees
 
     
@@ -60,3 +62,6 @@ def executer():
 
 
 executer()
+
+
+#transformation logarithme de Sales Price
