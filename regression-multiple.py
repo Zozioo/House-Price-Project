@@ -4,7 +4,7 @@ from sklearn import linear_model
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-
+from scipy.stats import chi2_contingency
 
 df = pd.read_csv('data/CleanTrain.csv')
 df = df.drop('Id', axis=1)
@@ -13,6 +13,12 @@ variables = df[['GrLivArea', 'OverallQual', 'GarageCars']]
 
 X = df[['GrLivArea', 'OverallQual', 'GarageCars']]
 Y = df['SalePrice']
+
+chi2, p, dof, expected = chi2_contingency(X)
+
+print(p)
+#p = 1, les valeurs sont bien indépendantes
+
 
 #Division des donnees
 X_train,X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.3, random_state = 100)
@@ -41,5 +47,4 @@ rsme_regression = np.sqrt(metrics.mean_squared_error(Y_test, y_pred)).round(2)
 print('MAE_regression:', mae_regression)
 print('MSE_regression:', mse_regression)
 print('RMSE_regression:', rsme_regression)
-
 
