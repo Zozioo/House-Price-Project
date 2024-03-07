@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-
 from sklearn import linear_model
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
@@ -28,12 +27,11 @@ coefficients_arrondis = [(variable, round(coef, 2)) for variable, coef in zip(X.
 print(coefficients_arrondis)
 
 
-y_pred= reg_model.predict(X_test)  
-x_pred= reg_model.predict(X_train) 
-
+y_pred= reg_model.predict(X_test)
+print(len(y_pred), len(X_test), len(Y_test)) # me retourne 438 438 438
 
 #Valeur actuelle and la valeur prédite
-reg_model_diff = pd.DataFrame({'Valuer actuelle': Y_test, 'Valeur predite': y_pred})
+reg_model_diff = pd.DataFrame({'Valeur actuelle': Y_test, 'Valeur predite': y_pred})
 reg_model_diff
 
 mae_regression = metrics.mean_absolute_error(Y_test, y_pred).round(2)
@@ -44,21 +42,4 @@ print('MAE_regression:', mae_regression)
 print('MSE_regression:', mse_regression)
 print('RMSE_regression:', rsme_regression)
 
-# 'y_test' contient les vraies valeurs de la variable cible et y_pred contient les valeurs prédites par votre modèle.
 
-# Calculer la moyenne des valeurs de la variable cible
-mean_sale_price = np.mean(Y_test).round(2)
-
-
-# Comparer le RMSE avec la moyenne des valeurs de la variable cible
-print("Moyenne des valeurs de la variable cible:", mean_sale_price)
-
-
-if rsme_regression < mean_sale_price:
-    print("Le RSME_regression est plus petit que la moyenne des valeurs de la variable cible.")
-    print("Cela suggère que le modèle a une performance relative acceptable.")
-else:
-    print("Le RSME_regression est plus grand ou égal à la moyenne des valeurs de la variable cible.")
-    print("Cela suggère que le modèle pourrait avoir des performances insuffisantes.")
-    
-    
