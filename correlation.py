@@ -1,8 +1,5 @@
 import pandas as pd
 import numpy as np
-import math
-import csv
-import re 
 import matplotlib.pyplot as plt
 
 from NettoyageDonnees import Nettoyage 
@@ -10,6 +7,7 @@ from NettoyageDonnees import Nettoyage
 import seaborn as sns
 
 n = Nettoyage("data/train.csv","data/test.csv",0)
+
 
 data=n.RemoveNA(n.train)
 data.drop('Id', axis=1, inplace=True)

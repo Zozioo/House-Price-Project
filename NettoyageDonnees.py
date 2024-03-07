@@ -1,8 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib as math
-import statistics as stat
-import csv
 import re 
 
 class Nettoyage:
